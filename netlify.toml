@@ -1,0 +1,33 @@
+# ─── MediaMitra — Netlify Configuration ──────────────────────────────────────
+
+[build]
+  publish   = "public"
+  functions = "netlify/functions"
+
+# ── Redirect /api/contact → Netlify Function ──────────────────────────────────
+[[redirects]]
+  from   = "/api/contact"
+  to     = "/.netlify/functions/contact"
+  status = 200
+
+# ── SPA fallback (serves index.html for all unmatched routes) ─────────────────
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+# ── Security headers ──────────────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection       = "1; mode=block"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+    Permissions-Policy     = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options        = "DENY"
