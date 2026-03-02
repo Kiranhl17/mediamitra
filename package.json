@@ -1,14 +1,6 @@
 {
   "name": "mediamitra",
   "version": "1.0.0",
-  "description": "MediaMitra — Digital Marketing Agency Website",
   "private": true,
-  "engines": { "node": ">=18.x" },
-  "scripts": {
-    "dev": "vercel dev",
-    "start": "npx serve public -p 3000"
-  },
-  "dependencies": {
-    "nodemailer": "^6.9.9"
-  }
+  "engines": { "node": ">=18.x" }
 }
