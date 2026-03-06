@@ -1669,6 +1669,134 @@ body.js-loaded .reveal-right.visible {
   .btn { width: 100%; justify-content: center; }
 }
 </style>
+
+/* =============================================
+   PRICING
+   ============================================= */
+#pricing {
+  padding: 100px 0;
+  background: var(--gray-light);
+}
+.pricing-head { text-align: center; margin-bottom: 60px; }
+.pricing-head .section-subtitle { margin: 14px auto 0; }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  align-items: start;
+}
+.pricing-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.pricing-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+.pricing-card.featured {
+  border-color: var(--orange);
+  background: linear-gradient(135deg, #0D47A1, #0A2E80);
+  color: var(--white);
+}
+.pricing-badge {
+  position: absolute;
+  top: 18px; right: -28px;
+  background: var(--orange);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 36px;
+  transform: rotate(45deg);
+  letter-spacing: 0.08em;
+}
+.pricing-icon { font-size: 2rem; margin-bottom: 14px; }
+.pricing-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.pricing-card.featured .pricing-name { color: var(--white); }
+.pricing-price {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--orange);
+  line-height: 1;
+  margin: 16px 0 4px;
+}
+.pricing-price span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gray);
+}
+.pricing-card.featured .pricing-price span { color: rgba(255,255,255,0.6); }
+.pricing-desc {
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin-bottom: 22px;
+  line-height: 1.6;
+}
+.pricing-card.featured .pricing-desc { color: rgba(255,255,255,0.7); }
+.pricing-features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.pf {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--dark);
+}
+.pricing-card.featured .pf { color: rgba(255,255,255,0.85); }
+.pf-check {
+  width: 18px; height: 18px;
+  background: #D1FAE5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.pricing-card.featured .pf-check { background: rgba(255,255,255,0.2); }
+.pricing-btn {
+  display: block;
+  text-align: center;
+  padding: 13px;
+  border-radius: 50px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: var(--transition);
+  background: var(--blue-pale);
+  color: var(--blue);
+}
+.pricing-btn:hover { background: var(--blue); color: var(--white); transform: translateY(-2px); }
+.pricing-card.featured .pricing-btn {
+  background: var(--orange);
+  color: var(--white);
+  box-shadow: 0 6px 20px rgba(255,111,0,0.35);
+}
+.pricing-card.featured .pricing-btn:hover { background: var(--orange-light); }
+.pricing-note {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.88rem;
+  color: var(--gray);
+}
+.pricing-note strong { color: var(--dark); }
+
 <!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
@@ -1692,6 +1820,7 @@ body.js-loaded .reveal-right.visible {
         <li><a href="#services">Services</a></li>
         <li><a href="#why">Why Us</a></li>
         <li><a href="#portfolio">Work</a></li>
+        <li><a href="#pricing">Pricing</a></li>
         <li><a href="#testimonials">Reviews</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -1710,6 +1839,7 @@ body.js-loaded .reveal-right.visible {
   <a href="#services" class="mobile-link">Services</a>
   <a href="#why" class="mobile-link">Why Us</a>
   <a href="#portfolio" class="mobile-link">Our Work</a>
+  <a href="#pricing" class="mobile-link">Pricing</a>
   <a href="#testimonials" class="mobile-link">Reviews</a>
   <a href="#contact" class="mobile-link">Contact</a>
   <a href="#contact" class="nav-btn">Free Consultation →</a>
@@ -1834,17 +1964,17 @@ body.js-loaded .reveal-right.visible {
       <div class="service-card reveal">
         <div class="service-icon-wrap si-1">📱</div>
         <div class="service-title">Social Media Marketing</div>
-        <p class="service-desc">Build a loyal community and amplify your brand voice across Instagram, Facebook, LinkedIn, and X with scroll-stopping content and engagement strategies.</p>
+        <p class="service-desc">Grow your brand and engage your audience across Instagram, Facebook, LinkedIn, and X with scroll-stopping content, reels, and engagement strategies.</p>
         <div class="service-tags">
-          <span class="stag">Content Creation</span>
-          <span class="stag">Community Mgmt</span>
+          <span class="stag">15 Posters/Month</span>
+          <span class="stag">15 Reels</span>
           <span class="stag">Analytics</span>
         </div>
       </div>
       <div class="service-card reveal">
         <div class="service-icon-wrap si-2">💰</div>
-        <div class="service-title">Paid Ads (Google & Meta)</div>
-        <p class="service-desc">Precision-targeted ad campaigns that put your brand in front of the right people at the right time — maximising every rupee of your ad budget.</p>
+        <div class="service-title">Meta Ads & Google Ads</div>
+        <p class="service-desc">Targeted ad campaigns that drive leads and boost ROI. We handle strategy, setup, monitoring and reporting — you just watch the results.</p>
         <div class="service-tags">
           <span class="stag">Google Ads</span>
           <span class="stag">Meta Ads</span>
@@ -1853,32 +1983,62 @@ body.js-loaded .reveal-right.visible {
       </div>
       <div class="service-card reveal">
         <div class="service-icon-wrap si-3">🔍</div>
-        <div class="service-title">SEO Optimization</div>
-        <p class="service-desc">Dominate search rankings organically. Our SEO strategies combine technical excellence, content authority, and smart link building to drive consistent traffic.</p>
+        <div class="service-title">Search Engine Optimization</div>
+        <p class="service-desc">Improve rankings and increase organic website traffic. We cover on-page, off-page, technical SEO, keyword research, competitor analysis and monthly reports.</p>
         <div class="service-tags">
           <span class="stag">On-Page SEO</span>
           <span class="stag">Technical SEO</span>
-          <span class="stag">Link Building</span>
+          <span class="stag">Backlinks</span>
         </div>
       </div>
       <div class="service-card reveal">
-        <div class="service-icon-wrap si-4">🎨</div>
-        <div class="service-title">Branding</div>
-        <p class="service-desc">From logos to brand guidelines — we build identities that resonate, differentiate, and stick. Your brand is your most powerful asset; we make it unforgettable.</p>
+        <div class="service-icon-wrap si-4">✍️</div>
+        <div class="service-title">Content Marketing</div>
+        <p class="service-desc">Grow your brand and engage your audience with high-quality content — blog posts, articles, social copy, and video scripts crafted for your niche.</p>
         <div class="service-tags">
-          <span class="stag">Logo Design</span>
-          <span class="stag">Brand Strategy</span>
-          <span class="stag">Visual Identity</span>
+          <span class="stag">Blog Writing</span>
+          <span class="stag">Video Scripts</span>
+          <span class="stag">Copywriting</span>
         </div>
       </div>
       <div class="service-card reveal">
         <div class="service-icon-wrap si-5">💻</div>
         <div class="service-title">Website Development</div>
-        <p class="service-desc">Lightning-fast, conversion-optimised websites that impress visitors and turn them into buyers. Built on modern tech for performance, security, and scale.</p>
+        <p class="service-desc">Responsive websites designed for performance and growth. Custom 5-page websites with hosting, SSL, SEO setup, contact form and social media linking.</p>
         <div class="service-tags">
-          <span class="stag">Landing Pages</span>
-          <span class="stag">E-commerce</span>
-          <span class="stag">CRO</span>
+          <span class="stag">5 Static Pages</span>
+          <span class="stag">1 Year Hosting</span>
+          <span class="stag">SSL + SEO</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon-wrap" style="background:#E0F2FE;">🎨</div>
+        <div class="service-title">UI/UX Design</div>
+        <p class="service-desc">User-friendly designs that enhance experience and interaction. From wireframes to pixel-perfect interfaces that convert visitors into customers.</p>
+        <div class="service-tags">
+          <span class="stag">Wireframing</span>
+          <span class="stag">UI Design</span>
+          <span class="stag">Prototyping</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon-wrap" style="background:#FEF9C3;">🎬</div>
+        <div class="service-title">Motion Video Editing</div>
+        <p class="service-desc">Professional video editing with motion graphics, text animations, smooth transitions, color correction and royalty-free background music. 2-day delivery.</p>
+        <div class="service-tags">
+          <span class="stag">Motion Graphics</span>
+          <span class="stag">Reels Editing</span>
+          <span class="stag">₹500/min</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon-wrap" style="background:#FCE7F3;">🖼️</div>
+        <div class="service-title">Banner Design</div>
+        <p class="service-desc">Custom banner designs for events, promotions and branding. High-resolution printable files in PDF/PNG with one revision included.</p>
+        <div class="service-tags">
+          <span class="stag">Print Ready</span>
+          <span class="stag">High-Res PDF/PNG</span>
+          <span class="stag">From ₹600</span>
         </div>
       </div>
     </div>
@@ -2058,6 +2218,94 @@ body.js-loaded .reveal-right.visible {
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- =============================================
+     PRICING
+     ============================================= -->
+<section id="pricing">
+  <div class="container">
+    <div class="pricing-head reveal">
+      <div class="section-label">Transparent Pricing</div>
+      <h2 class="section-title">Simple Plans, <span>Real Results</span></h2>
+      <p class="section-subtitle">No hidden fees. No long-term lock-ins. Choose what fits your business and scale as you grow.</p>
+    </div>
+    <div class="pricing-grid">
+
+      <!-- Digital Marketing -->
+      <div class="pricing-card reveal">
+        <div class="pricing-icon">📱</div>
+        <div class="pricing-name">Digital Marketing</div>
+        <div class="pricing-price">₹28,000 <span>/ month</span></div>
+        <p class="pricing-desc">Complete social media & ads management for one month.</p>
+        <div class="pricing-features">
+          <div class="pf"><div class="pf-check">✓</div> 15 Social Media Posters (Static)</div>
+          <div class="pf"><div class="pf-check">✓</div> 15 Reels (Short-Form Video Edits)</div>
+          <div class="pf"><div class="pf-check">✓</div> 4 YouTube Videos (Edit + Optimize)</div>
+          <div class="pf"><div class="pf-check">✓</div> Meta Ads Management (Strategy, Setup, Monitoring)</div>
+          <div class="pf"><div class="pf-check">✓</div> Monthly Performance Report</div>
+        </div>
+        <a href="#contact" class="pricing-btn">Get Started →</a>
+      </div>
+
+      <!-- Website Development - Featured -->
+      <div class="pricing-card featured reveal">
+        <div class="pricing-badge">POPULAR</div>
+        <div class="pricing-icon">💻</div>
+        <div class="pricing-name">Website Development</div>
+        <div class="pricing-price">₹20,000 <span>one-time</span></div>
+        <p class="pricing-desc">Professional website built and launched in 7 days.</p>
+        <div class="pricing-features">
+          <div class="pf"><div class="pf-check">✓</div> 5 Custom Static Pages</div>
+          <div class="pf"><div class="pf-check">✓</div> 1 Year Hosting Included</div>
+          <div class="pf"><div class="pf-check">✓</div> Mobile & Tablet Responsive</div>
+          <div class="pf"><div class="pf-check">✓</div> Basic On-Page SEO Setup</div>
+          <div class="pf"><div class="pf-check">✓</div> Contact Form + Social Media Linking</div>
+          <div class="pf"><div class="pf-check">✓</div> SSL Certificate + Speed Optimized</div>
+        </div>
+        <a href="#contact" class="pricing-btn">Get Started →</a>
+      </div>
+
+      <!-- SEO -->
+      <div class="pricing-card reveal">
+        <div class="pricing-icon">🔍</div>
+        <div class="pricing-name">SEO Optimization</div>
+        <div class="pricing-price">₹9,000 <span>/ month</span></div>
+        <p class="pricing-desc">Rank higher on Google and drive consistent organic traffic.</p>
+        <div class="pricing-features">
+          <div class="pf"><div class="pf-check">✓</div> Keyword Research (Industry + Location)</div>
+          <div class="pf"><div class="pf-check">✓</div> On-Page SEO (Titles, Meta, URLs)</div>
+          <div class="pf"><div class="pf-check">✓</div> Off-Page SEO (Backlinks, Directories)</div>
+          <div class="pf"><div class="pf-check">✓</div> Technical SEO Audit</div>
+          <div class="pf"><div class="pf-check">✓</div> Competitor Analysis</div>
+          <div class="pf"><div class="pf-check">✓</div> Google Search Console & Analytics Setup</div>
+        </div>
+        <a href="#contact" class="pricing-btn">Get Started →</a>
+      </div>
+
+      <!-- Add-ons -->
+      <div class="pricing-card reveal">
+        <div class="pricing-icon">⚡</div>
+        <div class="pricing-name">Add-On Services</div>
+        <div class="pricing-price" style="font-size:1.6rem;">à la carte</div>
+        <p class="pricing-desc">Pick individual services based on your specific needs.</p>
+        <div class="pricing-features">
+          <div class="pf"><div class="pf-check">✓</div> Motion Video Editing — <strong>₹500/min</strong></div>
+          <div class="pf"><div class="pf-check">✓</div> Banner Design (10×10 ft) — <strong>₹600</strong></div>
+          <div class="pf"><div class="pf-check">✓</div> UI/UX Design — <strong>Custom Quote</strong></div>
+          <div class="pf"><div class="pf-check">✓</div> Content Marketing — <strong>Custom Quote</strong></div>
+          <div class="pf"><div class="pf-check">✓</div> High-Res PDF/PNG Delivery</div>
+          <div class="pf"><div class="pf-check">✓</div> 2-Day Turnaround on Video Edits</div>
+        </div>
+        <a href="#contact" class="pricing-btn">Get Custom Quote →</a>
+      </div>
+
+    </div>
+    <p class="pricing-note">
+      💡 <strong>Terms:</strong> 50% advance to start, balance before delivery. Extra changes beyond scope charged separately.<br>
+      Need a custom package? <a href="#contact" style="color:var(--orange);font-weight:700;">Talk to us →</a>
+    </p>
   </div>
 </section>
 
@@ -2297,7 +2545,11 @@ body.js-loaded .reveal-right.visible {
       <div class="footer-col">
         <h4>Contact</h4>
         <ul>
-          <li><a href="/cdn-cgi/l/email-protection#3f575a5353507f525a5b565e52564b4d5e115651"><span class="__cf_email__" data-cfemail="b9d1dcd5d5d6f9d4dcddd0d8d4d0cdcbd897d0d7">[email&#160;protected]</span></a></li>
+          <li>
+  <a href="https://mail.google.com/mail/?view=cm&to=mediamitra05@gmail.com" target="_blank">
+    mediamitra05@gmail.com
+  </a>
+</li>
           <li><a href="tel:+916363234833">+91 63632 34833</a></li>
           <li><a href="#contact">Bandra West, Mumbai</a></li>
           <li><a href="https://wa.me/916363234833">WhatsApp Us</a></li>
@@ -2462,6 +2714,7 @@ document.head.appendChild(style);
         <li><a href="#services">Services</a></li>
         <li><a href="#why">Why Us</a></li>
         <li><a href="#portfolio">Work</a></li>
+        <li><a href="#pricing">Pricing</a></li>
         <li><a href="#testimonials">Reviews</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -2480,6 +2733,7 @@ document.head.appendChild(style);
   <a href="#services" class="mobile-link">Services</a>
   <a href="#why" class="mobile-link">Why Us</a>
   <a href="#portfolio" class="mobile-link">Our Work</a>
+  <a href="#pricing" class="mobile-link">Pricing</a>
   <a href="#testimonials" class="mobile-link">Reviews</a>
   <a href="#contact" class="mobile-link">Contact</a>
   <a href="#contact" class="nav-btn">Free Consultation →</a>
@@ -2604,17 +2858,17 @@ document.head.appendChild(style);
       <div class="service-card reveal">
         <div class="service-icon-wrap si-1">📱</div>
         <div class="service-title">Social Media Marketing</div>
-        <p class="service-desc">Build a loyal community and amplify your brand voice across Instagram, Facebook, LinkedIn, and X with scroll-stopping content and engagement strategies.</p>
+        <p class="service-desc">Grow your brand and engage your audience across Instagram, Facebook, LinkedIn, and X with scroll-stopping content, reels, and engagement strategies.</p>
         <div class="service-tags">
-          <span class="stag">Content Creation</span>
-          <span class="stag">Community Mgmt</span>
+          <span class="stag">15 Posters/Month</span>
+          <span class="stag">15 Reels</span>
           <span class="stag">Analytics</span>
         </div>
       </div>
       <div class="service-card reveal">
         <div class="service-icon-wrap si-2">💰</div>
-        <div class="service-title">Paid Ads (Google & Meta)</div>
-        <p class="service-desc">Precision-targeted ad campaigns that put your brand in front of the right people at the right time — maximising every rupee of your ad budget.</p>
+        <div class="service-title">Meta Ads & Google Ads</div>
+        <p class="service-desc">Targeted ad campaigns that drive leads and boost ROI. We handle strategy, setup, monitoring and reporting — you just watch the results.</p>
         <div class="service-tags">
           <span class="stag">Google Ads</span>
           <span class="stag">Meta Ads</span>
@@ -2623,32 +2877,62 @@ document.head.appendChild(style);
       </div>
       <div class="service-card reveal">
         <div class="service-icon-wrap si-3">🔍</div>
-        <div class="service-title">SEO Optimization</div>
-        <p class="service-desc">Dominate search rankings organically. Our SEO strategies combine technical excellence, content authority, and smart link building to drive consistent traffic.</p>
+        <div class="service-title">Search Engine Optimization</div>
+        <p class="service-desc">Improve rankings and increase organic website traffic. We cover on-page, off-page, technical SEO, keyword research, competitor analysis and monthly reports.</p>
         <div class="service-tags">
           <span class="stag">On-Page SEO</span>
           <span class="stag">Technical SEO</span>
-          <span class="stag">Link Building</span>
+          <span class="stag">Backlinks</span>
         </div>
       </div>
       <div class="service-card reveal">
-        <div class="service-icon-wrap si-4">🎨</div>
-        <div class="service-title">Branding</div>
-        <p class="service-desc">From logos to brand guidelines — we build identities that resonate, differentiate, and stick. Your brand is your most powerful asset; we make it unforgettable.</p>
+        <div class="service-icon-wrap si-4">✍️</div>
+        <div class="service-title">Content Marketing</div>
+        <p class="service-desc">Grow your brand and engage your audience with high-quality content — blog posts, articles, social copy, and video scripts crafted for your niche.</p>
         <div class="service-tags">
-          <span class="stag">Logo Design</span>
-          <span class="stag">Brand Strategy</span>
-          <span class="stag">Visual Identity</span>
+          <span class="stag">Blog Writing</span>
+          <span class="stag">Video Scripts</span>
+          <span class="stag">Copywriting</span>
         </div>
       </div>
       <div class="service-card reveal">
         <div class="service-icon-wrap si-5">💻</div>
         <div class="service-title">Website Development</div>
-        <p class="service-desc">Lightning-fast, conversion-optimised websites that impress visitors and turn them into buyers. Built on modern tech for performance, security, and scale.</p>
+        <p class="service-desc">Responsive websites designed for performance and growth. Custom 5-page websites with hosting, SSL, SEO setup, contact form and social media linking.</p>
         <div class="service-tags">
-          <span class="stag">Landing Pages</span>
-          <span class="stag">E-commerce</span>
-          <span class="stag">CRO</span>
+          <span class="stag">5 Static Pages</span>
+          <span class="stag">1 Year Hosting</span>
+          <span class="stag">SSL + SEO</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon-wrap" style="background:#E0F2FE;">🎨</div>
+        <div class="service-title">UI/UX Design</div>
+        <p class="service-desc">User-friendly designs that enhance experience and interaction. From wireframes to pixel-perfect interfaces that convert visitors into customers.</p>
+        <div class="service-tags">
+          <span class="stag">Wireframing</span>
+          <span class="stag">UI Design</span>
+          <span class="stag">Prototyping</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon-wrap" style="background:#FEF9C3;">🎬</div>
+        <div class="service-title">Motion Video Editing</div>
+        <p class="service-desc">Professional video editing with motion graphics, text animations, smooth transitions, color correction and royalty-free background music. 2-day delivery.</p>
+        <div class="service-tags">
+          <span class="stag">Motion Graphics</span>
+          <span class="stag">Reels Editing</span>
+          <span class="stag">₹500/min</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon-wrap" style="background:#FCE7F3;">🖼️</div>
+        <div class="service-title">Banner Design</div>
+        <p class="service-desc">Custom banner designs for events, promotions and branding. High-resolution printable files in PDF/PNG with one revision included.</p>
+        <div class="service-tags">
+          <span class="stag">Print Ready</span>
+          <span class="stag">High-Res PDF/PNG</span>
+          <span class="stag">From ₹600</span>
         </div>
       </div>
     </div>
@@ -2828,6 +3112,94 @@ document.head.appendChild(style);
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- =============================================
+     PRICING
+     ============================================= -->
+<section id="pricing">
+  <div class="container">
+    <div class="pricing-head reveal">
+      <div class="section-label">Transparent Pricing</div>
+      <h2 class="section-title">Simple Plans, <span>Real Results</span></h2>
+      <p class="section-subtitle">No hidden fees. No long-term lock-ins. Choose what fits your business and scale as you grow.</p>
+    </div>
+    <div class="pricing-grid">
+
+      <!-- Digital Marketing -->
+      <div class="pricing-card reveal">
+        <div class="pricing-icon">📱</div>
+        <div class="pricing-name">Digital Marketing</div>
+        <div class="pricing-price">₹28,000 <span>/ month</span></div>
+        <p class="pricing-desc">Complete social media & ads management for one month.</p>
+        <div class="pricing-features">
+          <div class="pf"><div class="pf-check">✓</div> 15 Social Media Posters (Static)</div>
+          <div class="pf"><div class="pf-check">✓</div> 15 Reels (Short-Form Video Edits)</div>
+          <div class="pf"><div class="pf-check">✓</div> 4 YouTube Videos (Edit + Optimize)</div>
+          <div class="pf"><div class="pf-check">✓</div> Meta Ads Management (Strategy, Setup, Monitoring)</div>
+          <div class="pf"><div class="pf-check">✓</div> Monthly Performance Report</div>
+        </div>
+        <a href="#contact" class="pricing-btn">Get Started →</a>
+      </div>
+
+      <!-- Website Development - Featured -->
+      <div class="pricing-card featured reveal">
+        <div class="pricing-badge">POPULAR</div>
+        <div class="pricing-icon">💻</div>
+        <div class="pricing-name">Website Development</div>
+        <div class="pricing-price">₹20,000 <span>one-time</span></div>
+        <p class="pricing-desc">Professional website built and launched in 7 days.</p>
+        <div class="pricing-features">
+          <div class="pf"><div class="pf-check">✓</div> 5 Custom Static Pages</div>
+          <div class="pf"><div class="pf-check">✓</div> 1 Year Hosting Included</div>
+          <div class="pf"><div class="pf-check">✓</div> Mobile & Tablet Responsive</div>
+          <div class="pf"><div class="pf-check">✓</div> Basic On-Page SEO Setup</div>
+          <div class="pf"><div class="pf-check">✓</div> Contact Form + Social Media Linking</div>
+          <div class="pf"><div class="pf-check">✓</div> SSL Certificate + Speed Optimized</div>
+        </div>
+        <a href="#contact" class="pricing-btn">Get Started →</a>
+      </div>
+
+      <!-- SEO -->
+      <div class="pricing-card reveal">
+        <div class="pricing-icon">🔍</div>
+        <div class="pricing-name">SEO Optimization</div>
+        <div class="pricing-price">₹9,000 <span>/ month</span></div>
+        <p class="pricing-desc">Rank higher on Google and drive consistent organic traffic.</p>
+        <div class="pricing-features">
+          <div class="pf"><div class="pf-check">✓</div> Keyword Research (Industry + Location)</div>
+          <div class="pf"><div class="pf-check">✓</div> On-Page SEO (Titles, Meta, URLs)</div>
+          <div class="pf"><div class="pf-check">✓</div> Off-Page SEO (Backlinks, Directories)</div>
+          <div class="pf"><div class="pf-check">✓</div> Technical SEO Audit</div>
+          <div class="pf"><div class="pf-check">✓</div> Competitor Analysis</div>
+          <div class="pf"><div class="pf-check">✓</div> Google Search Console & Analytics Setup</div>
+        </div>
+        <a href="#contact" class="pricing-btn">Get Started →</a>
+      </div>
+
+      <!-- Add-ons -->
+      <div class="pricing-card reveal">
+        <div class="pricing-icon">⚡</div>
+        <div class="pricing-name">Add-On Services</div>
+        <div class="pricing-price" style="font-size:1.6rem;">à la carte</div>
+        <p class="pricing-desc">Pick individual services based on your specific needs.</p>
+        <div class="pricing-features">
+          <div class="pf"><div class="pf-check">✓</div> Motion Video Editing — <strong>₹500/min</strong></div>
+          <div class="pf"><div class="pf-check">✓</div> Banner Design (10×10 ft) — <strong>₹600</strong></div>
+          <div class="pf"><div class="pf-check">✓</div> UI/UX Design — <strong>Custom Quote</strong></div>
+          <div class="pf"><div class="pf-check">✓</div> Content Marketing — <strong>Custom Quote</strong></div>
+          <div class="pf"><div class="pf-check">✓</div> High-Res PDF/PNG Delivery</div>
+          <div class="pf"><div class="pf-check">✓</div> 2-Day Turnaround on Video Edits</div>
+        </div>
+        <a href="#contact" class="pricing-btn">Get Custom Quote →</a>
+      </div>
+
+    </div>
+    <p class="pricing-note">
+      💡 <strong>Terms:</strong> 50% advance to start, balance before delivery. Extra changes beyond scope charged separately.<br>
+      Need a custom package? <a href="#contact" style="color:var(--orange);font-weight:700;">Talk to us →</a>
+    </p>
   </div>
 </section>
 
@@ -3067,7 +3439,7 @@ document.head.appendChild(style);
       <div class="footer-col">
         <h4>Contact</h4>
         <ul>
-          <li><a href="/cdn-cgi/l/email-protection#3f575a5353507f525a5b565e52564b4d5e115651"><span class="__cf_email__" data-cfemail="b9d1dcd5d5d6f9d4dcddd0d8d4d0cdcbd897d0d7">[email&#160;protected]</span></a></li>
+          <li><a href="/cdn-cgi/l/email-protection#3f575a5353507f525a5b565e52564b4d5e115651">mediamitra05@gmail.com</a></li>
           <li><a href="tel:+916363234833">+91 63632 34833</a></li>
           <li><a href="#contact">Bandra West, Mumbai</a></li>
           <li><a href="https://wa.me/916363234833">WhatsApp Us</a></li>
