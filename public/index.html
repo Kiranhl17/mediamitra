@@ -2315,6 +2315,776 @@ body.js-loaded .reveal-right.visible {
      JAVASCRIPT
      ============================================= -->
 <script>
+// Wait for DOM to be fully ready
+document.addEventListener('DOMContentLoaded', function() {
+
+// ─── Navbar scroll ────────────────────────────
+var navbar = document.getElementById('navbar');
+window.addEventListener('scroll', function() {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ─── Hamburger menu ───────────────────────────
+var hamburger = document.getElementById('hamburger');
+var mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', function() {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+});
+document.querySelectorAll('.mobile-link, .mobile-menu .nav-btn').forEach(function(link) {
+  link.addEventListener('click', function() {
+    hamburger.classList.remove('active');
+    mobileMenu.classList.remove('open');
+  });
+});
+
+// ─── Smooth scroll ────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ─── Scroll reveal ────────────────────────────
+var revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+function triggerReveal(el) {
+  var siblings = Array.from(el.parentElement.children).filter(function(e) {
+    return e.classList.contains('reveal') || e.classList.contains('reveal-left') || e.classList.contains('reveal-right');
+  });
+  var idx = siblings.indexOf(el);
+  el.style.transitionDelay = (idx * 0.08) + 's';
+  el.classList.add('visible');
+}
+
+function initReveal() {
+  document.body.classList.add('js-loaded');
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          triggerReveal(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+    revealEls.forEach(function(el) { observer.observe(el); });
+  } else {
+    revealEls.forEach(function(el) { triggerReveal(el); });
+  }
+  setTimeout(function() {
+    revealEls.forEach(function(el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) triggerReveal(el);
+    });
+  }, 100);
+}
+window.addEventListener('load', initReveal);
+
+// ─── Form submit via EmailJS ──────────────────
+var submitBtn = document.getElementById('submitBtn');
+if (submitBtn) {
+  submitBtn.addEventListener('click', function() {
+    var btn     = this;
+    var fname   = document.getElementById('fname').value.trim();
+    var lname   = document.getElementById('lname').value.trim();
+    var email   = document.getElementById('email').value.trim();
+    var phone   = document.getElementById('phone').value.trim();
+    var service = document.getElementById('service').value;
+    var budget  = document.getElementById('budget').value;
+    var message = document.getElementById('message').value.trim();
+
+    // Clear previous errors
+    ['fname','email','phone'].forEach(function(id) {
+      document.getElementById(id).style.borderColor = '';
+    });
+
+    // Validate
+    var hasError = false;
+    if (!fname) { document.getElementById('fname').style.borderColor = '#EF4444'; hasError = true; }
+    if (!email) { document.getElementById('email').style.borderColor = '#EF4444'; hasError = true; }
+    if (!phone) { document.getElementById('phone').style.borderColor = '#EF4444'; hasError = true; }
+    if (hasError) return;
+
+    // Loading
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Sending...';
+
+    // Send via EmailJS
+    emailjs.send('service_fg9ow0h', 'template_fba0v7p', {
+      from_name:  fname + ' ' + lname,
+      from_email: email,
+      phone:      phone,
+      service:    service || 'Not specified',
+      budget:     budget  || 'Not specified',
+      message:    message || 'No message',
+      to_email:   'mediamitra05@gmail.com',
+      reply_to:   email
+    }).then(function(response) {
+      console.log('EmailJS SUCCESS:', response.status, response.text);
+      document.getElementById('formContent').style.display = 'none';
+      var s = document.getElementById('formSuccess');
+      s.style.display = 'block';
+    }).catch(function(error) {
+      console.error('EmailJS FAILED:', JSON.stringify(error));
+      btn.disabled = false;
+      btn.innerHTML = '🚀 Submit & Get Free Consultation';
+      alert('Failed to send. Error: ' + JSON.stringify(error) + '\nPlease WhatsApp us at +91 63632 34833');
+    });
+  });
+}
+
+// ─── Keyframes ────────────────────────────────
+var style = document.createElement('style');
+style.textContent = '@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} } .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle} @keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(style);
+
+}); // end DOMContentLoaded
+</script>
+</head>
+<body>
+
+<!-- =============================================
+     NAVBAR
+     ============================================= -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#hero" class="logo">
+        <img src="data:image/png;base64,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" alt="MediaMitra Logo" style="width:42px;height:42px;object-fit:contain;background:#ffffff;border-radius:50%;padding:5px;box-shadow:0 2px 8px rgba(0,0,0,0.15);" />
+        MediaMitra
+      </a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#why">Why Us</a></li>
+        <li><a href="#portfolio">Work</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="#contact" class="nav-btn">Free Consultation</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#why" class="mobile-link">Why Us</a>
+  <a href="#portfolio" class="mobile-link">Our Work</a>
+  <a href="#testimonials" class="mobile-link">Reviews</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+  <a href="#contact" class="nav-btn">Free Consultation →</a>
+</div>
+
+<!-- =============================================
+     HERO
+     ============================================= -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        India's Fastest Growing Digital Agency
+      </div>
+      <h1 class="hero-title">
+        Grow Your Business with <span class="highlight">Smart Digital</span> Marketing
+      </h1>
+      <p class="hero-desc">
+        We craft data-driven strategies that turn clicks into customers and brands into market leaders. From SEO to paid ads — we deliver measurable ROI.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">
+          🚀 Get Free Consultation
+        </a>
+        <a href="#portfolio" class="btn btn-outline">
+          View Our Work →
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">500<span>+</span></div>
+          <div class="hero-stat-label">Happy Clients</div>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">10<span>x</span></div>
+          <div class="hero-stat-label">Average ROI</div>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">₹50<span>Cr+</span></div>
+          <div class="hero-stat-label">Revenue Generated</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Visual: Floating cards -->
+  <div class="hero-visual">
+    <div class="hero-card-stack">
+      <div class="hcard hcard-main">
+        <div class="hcard-title">Monthly Performance</div>
+        <div class="hcard-metric">+<span>284%</span></div>
+        <div class="hcard-sub">
+          <span class="badge-up">▲ 38%</span> vs last month
+        </div>
+        <div class="hcard-chart">
+          <div class="bar" style="height:30%"></div>
+          <div class="bar" style="height:50%"></div>
+          <div class="bar" style="height:40%"></div>
+          <div class="bar" style="height:70%"></div>
+          <div class="bar" style="height:55%"></div>
+          <div class="bar active" style="height:90%"></div>
+          <div class="bar active" style="height:80%"></div>
+        </div>
+      </div>
+      <div class="hcard hcard-floating top-left">
+        <div class="hcard-title">Active Clients</div>
+        <div class="hcard-metric"><span>500</span>+</div>
+        <div class="hcard-avatar-row" style="margin-top:8px;">
+          <div class="avatar">RS</div>
+          <div class="avatar">PM</div>
+          <div class="avatar">AK</div>
+          <div class="avatar">+</div>
+          <span class="hcard-client-text"><strong>12 new</strong> this week</span>
+        </div>
+      </div>
+      <div class="hcard hcard-floating bottom-right">
+        <div class="hcard-title">Leads Generated</div>
+        <div class="hcard-metric"><span>12,480</span></div>
+        <div class="hcard-sub">
+          <span class="badge-up">▲ 52%</span> conversion rate
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     TRUST LOGOS
+     ============================================= -->
+<div id="logos">
+  <div class="container">
+    <div class="logos-inner">
+      <div class="trust-label">Trusted by 500+ businesses across India</div>
+      <div class="logo-badge"><div class="icon" style="background:#E3F2FD;">🛍️</div> ShopNova</div>
+      <div class="logo-badge"><div class="icon" style="background:#FFF3E0;">🏗️</div> BuildRight</div>
+      <div class="logo-badge"><div class="icon" style="background:#E8F5E9;">💊</div> MedPlus Pro</div>
+      <div class="logo-badge"><div class="icon" style="background:#FCE4EC;">🎓</div> EduSpark</div>
+      <div class="logo-badge"><div class="icon" style="background:#EDE7F6;">🍕</div> FoodZone</div>
+      <div class="logo-badge"><div class="icon" style="background:#E0F7FA;">🏦</div> FinVest</div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================================
+     SERVICES
+     ============================================= -->
+<section id="services">
+  <div class="container">
+    <div class="services-head reveal">
+      <div class="section-label">What We Do</div>
+      <h2 class="section-title">Services Built for <span>Real Results</span></h2>
+      <p class="section-subtitle">Every service is tailored to your business goals — no cookie-cutter packages, only strategies that move the needle.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon-wrap si-1">📱</div>
+        <div class="service-title">Social Media Marketing</div>
+        <p class="service-desc">Build a loyal community and amplify your brand voice across Instagram, Facebook, LinkedIn, and X with scroll-stopping content and engagement strategies.</p>
+        <div class="service-tags">
+          <span class="stag">Content Creation</span>
+          <span class="stag">Community Mgmt</span>
+          <span class="stag">Analytics</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon-wrap si-2">💰</div>
+        <div class="service-title">Paid Ads (Google & Meta)</div>
+        <p class="service-desc">Precision-targeted ad campaigns that put your brand in front of the right people at the right time — maximising every rupee of your ad budget.</p>
+        <div class="service-tags">
+          <span class="stag">Google Ads</span>
+          <span class="stag">Meta Ads</span>
+          <span class="stag">ROI Tracking</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon-wrap si-3">🔍</div>
+        <div class="service-title">SEO Optimization</div>
+        <p class="service-desc">Dominate search rankings organically. Our SEO strategies combine technical excellence, content authority, and smart link building to drive consistent traffic.</p>
+        <div class="service-tags">
+          <span class="stag">On-Page SEO</span>
+          <span class="stag">Technical SEO</span>
+          <span class="stag">Link Building</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon-wrap si-4">🎨</div>
+        <div class="service-title">Branding</div>
+        <p class="service-desc">From logos to brand guidelines — we build identities that resonate, differentiate, and stick. Your brand is your most powerful asset; we make it unforgettable.</p>
+        <div class="service-tags">
+          <span class="stag">Logo Design</span>
+          <span class="stag">Brand Strategy</span>
+          <span class="stag">Visual Identity</span>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon-wrap si-5">💻</div>
+        <div class="service-title">Website Development</div>
+        <p class="service-desc">Lightning-fast, conversion-optimised websites that impress visitors and turn them into buyers. Built on modern tech for performance, security, and scale.</p>
+        <div class="service-tags">
+          <span class="stag">Landing Pages</span>
+          <span class="stag">E-commerce</span>
+          <span class="stag">CRO</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     WHY CHOOSE US
+     ============================================= -->
+<section id="why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="why-visual reveal-left">
+        <div class="why-main-box">
+          <div class="why-box-title">Why 500+ brands choose <span>MediaMitra</span></div>
+          <p class="why-box-desc">We're not just an agency — we're your growth partner. Every strategy is rooted in data, every campaign is optimised for performance.</p>
+          <div class="why-pillars">
+            <div class="why-pillar">
+              <div class="why-pillar-num">10x</div>
+              <div class="why-pillar-label">Avg. ROI</div>
+            </div>
+            <div class="why-pillar">
+              <div class="why-pillar-num">98%</div>
+              <div class="why-pillar-label">Client Retention</div>
+            </div>
+            <div class="why-pillar">
+              <div class="why-pillar-num">7 Days</div>
+              <div class="why-pillar-label">Go-Live Time</div>
+            </div>
+            <div class="why-pillar">
+              <div class="why-pillar-num">₹50Cr+</div>
+              <div class="why-pillar-label">Revenue Driven</div>
+            </div>
+          </div>
+        </div>
+        <div class="why-floating-card">
+          <div class="why-fc-icon">🏆</div>
+          <div>
+            <div class="why-fc-title">Best Digital Agency</div>
+            <div class="why-fc-val">Award 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="section-label">Why Choose Us</div>
+        <h2 class="section-title">Performance-First.<br><span>Always.</span></h2>
+        <p class="section-subtitle">We obsess over your growth metrics so you don't have to. Here's what sets us apart.</p>
+        <div class="why-points" style="margin-top:36px;">
+          <div class="why-point">
+            <div class="wp-icon">📊</div>
+            <div>
+              <div class="wp-title">100% Data-Driven Decisions</div>
+              <p class="wp-desc">Every campaign is backed by real analytics. We A/B test, track, and optimise continuously to ensure maximum efficiency for your budget.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <div class="wp-icon">⚡</div>
+            <div>
+              <div class="wp-title">Rapid Execution</div>
+              <p class="wp-desc">Speed is our superpower. From strategy to launch in under 7 days. No endless meetings, no delays — just results delivered fast.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <div class="wp-icon">🔒</div>
+            <div>
+              <div class="wp-title">Full Transparency</div>
+              <p class="wp-desc">You get a real-time dashboard, weekly reports, and a dedicated account manager. No black boxes — just honest, clear reporting.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <div class="wp-icon">🎯</div>
+            <div>
+              <div class="wp-title">Industry-Specific Expertise</div>
+              <p class="wp-desc">We've worked across e-commerce, healthcare, real estate, and D2C. Our vertical-specific playbooks reduce your time-to-ROI significantly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     PORTFOLIO
+     ============================================= -->
+<section id="portfolio">
+  <div class="container">
+    <div class="portfolio-head reveal">
+      <div class="section-label" style="background:rgba(255,111,0,0.15);color:#FFB347;">Our Work</div>
+      <h2 class="section-title">Case Studies That <span>Speak Numbers</span></h2>
+      <p class="section-subtitle">Real campaigns. Real clients. Real results. Here's a snapshot of what we've achieved.</p>
+    </div>
+    <div class="portfolio-grid">
+      <div class="pcard featured reveal">
+        <div class="pcard-thumb pc-1">
+          🛍️
+          <div class="pcard-thumb-label">E-commerce</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-category">Google Ads + SEO</div>
+          <div class="pcard-title">ShopNova — 10x Revenue in 6 Months</div>
+          <p class="pcard-desc">Built a full-funnel paid strategy combined with content-led SEO, taking ShopNova from ₹5L/month to ₹50L/month in 180 days.</p>
+          <div class="pcard-results">
+            <div class="pcard-result">
+              <div class="pcard-result-val">10x</div>
+              <div class="pcard-result-label">Revenue Growth</div>
+            </div>
+            <div class="pcard-result">
+              <div class="pcard-result-val">4.2x</div>
+              <div class="pcard-result-label">ROAS</div>
+            </div>
+            <div class="pcard-result">
+              <div class="pcard-result-val">320%</div>
+              <div class="pcard-result-label">Organic Traffic ↑</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pcard reveal">
+        <div class="pcard-thumb pc-2">
+          🎓
+          <div class="pcard-thumb-label">EdTech</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-category">Meta Ads + Social</div>
+          <div class="pcard-title">EduSpark — 5000 Leads in 30 Days</div>
+          <div class="pcard-results">
+            <div class="pcard-result">
+              <div class="pcard-result-val">5,000</div>
+              <div class="pcard-result-label">Leads</div>
+            </div>
+            <div class="pcard-result">
+              <div class="pcard-result-val">₹48</div>
+              <div class="pcard-result-label">CPL</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pcard reveal">
+        <div class="pcard-thumb pc-3">
+          🍕
+          <div class="pcard-thumb-label">F&B</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-category">Branding + Social</div>
+          <div class="pcard-title">FoodZone — Brand Relaunch</div>
+          <div class="pcard-results">
+            <div class="pcard-result">
+              <div class="pcard-result-val">250%</div>
+              <div class="pcard-result-label">Engagement ↑</div>
+            </div>
+            <div class="pcard-result">
+              <div class="pcard-result-val">45K</div>
+              <div class="pcard-result-label">New Followers</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pcard reveal">
+        <div class="pcard-thumb pc-4">
+          🏗️
+          <div class="pcard-thumb-label">Real Estate</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-category">Google Ads + Landing Page</div>
+          <div class="pcard-title">BuildRight — 200 Site Visits/Month</div>
+          <div class="pcard-results">
+            <div class="pcard-result">
+              <div class="pcard-result-val">200</div>
+              <div class="pcard-result-label">Monthly Visits</div>
+            </div>
+            <div class="pcard-result">
+              <div class="pcard-result-val">18%</div>
+              <div class="pcard-result-label">Conv. Rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     TESTIMONIALS
+     ============================================= -->
+<section id="testimonials">
+  <div class="container">
+    <div class="testimonials-head reveal">
+      <div class="section-label">Client Reviews</div>
+      <h2 class="section-title">What Our Clients <span>Say About Us</span></h2>
+      <p class="section-subtitle">Don't take our word for it — hear from the businesses we've helped scale.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="tcard reveal">
+        <div class="tcard-top">
+          <div class="tcard-quote">"</div>
+          <div class="tcard-stars">★★★★★</div>
+        </div>
+        <p class="tcard-text">MediaMitra completely transformed our online presence. Within 3 months, our Google Ads ROAS went from 1.8x to 5.2x. Their team is incredibly data-driven and responsive. Best investment we've made.</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">RA</div>
+          <div>
+            <div class="tcard-name">Rohan Agarwal</div>
+            <div class="tcard-role">Founder, ShopNova</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard reveal">
+        <div class="tcard-top">
+          <div class="tcard-quote">"</div>
+          <div class="tcard-stars">★★★★★</div>
+        </div>
+        <p class="tcard-text">We tried 3 agencies before MediaMitra. None came close. They understood our education brand instantly, and their Meta Ads strategy brought us 5,000 qualified leads at ₹48 CPL. Outstanding results.</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">PS</div>
+          <div>
+            <div class="tcard-name">Priya Sharma</div>
+            <div class="tcard-role">CEO, EduSpark</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard reveal">
+        <div class="tcard-top">
+          <div class="tcard-quote">"</div>
+          <div class="tcard-stars">★★★★★</div>
+        </div>
+        <p class="tcard-text">The branding work MediaMitra did for FoodZone was exceptional. Our Instagram went from 2K to 47K followers in 4 months. The content quality and consistency is unmatched. Highly recommend!</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar">VK</div>
+          <div>
+            <div class="tcard-name">Vikram Khanna</div>
+            <div class="tcard-role">Director, FoodZone</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     CTA BANNER
+     ============================================= -->
+<section id="cta-banner">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-text">
+        <div class="section-label">Limited Slots Available</div>
+        <h2 class="cta-title">Ready to <span>10x Your Growth?</span><br>Let's Talk Strategy.</h2>
+        <p class="cta-sub">Join 500+ businesses that trust MediaMitra for growth. Book your FREE strategy session — no strings attached, no sales pitch, just clarity.</p>
+        <div class="cta-urgency">Only 5 free consultation slots left this week — grab yours now!</div>
+      </div>
+      <div class="cta-actions">
+        <a href="#contact" class="btn btn-primary" style="font-size:1rem; padding:16px 32px;">
+          🚀 Book Free Consultation
+        </a>
+        <a href="https://wa.me/916363234833" target="_blank" class="whatsapp-btn">
+          <span>💬</span> Chat on WhatsApp
+        </a>
+        <p style="font-size:0.78rem; color:rgba(255,255,255,0.5); text-align:center;">No commitment required • 100% Free</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     CONTACT
+     ============================================= -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal-left">
+        <div class="section-label">Get In Touch</div>
+        <div class="contact-info-title">Let's Build Something<br>Remarkable Together</div>
+        <p class="contact-info-desc">Whether you're a startup looking to launch or an established brand wanting to scale — we've got the strategy, the team, and the results to back it up.</p>
+        <div class="contact-details">
+          <div class="cdetail">
+            <div class="cdetail-icon">📧</div>
+            <div>
+              <div class="cdetail-label">Email Us</div>
+              <div class="cdetail-val"><a href="mailto:mediamitra05@gmail.com" style="color:inherit;text-decoration:none;">mediamitra05@gmail.com</a></div>
+            </div>
+          </div>
+          <div class="cdetail">
+            <div class="cdetail-icon">📞</div>
+            <div>
+              <div class="cdetail-label">Call Us</div>
+              <div class="cdetail-val">+91 63632 34833</div>
+            </div>
+          </div>
+          <div class="cdetail">
+            <div class="cdetail-icon">📍</div>
+            <div>
+              <div class="cdetail-label">Office</div>
+              <div class="cdetail-val">Hassan, Karnataka</div>
+            </div>
+          </div>
+          <div class="cdetail">
+            <div class="cdetail-icon">⏰</div>
+            <div>
+              <div class="cdetail-label">Response Time</div>
+              <div class="cdetail-val">Within 2 Hours</div>
+            </div>
+          </div>
+        </div>
+        <a href="https://wa.me/916363234833" target="_blank" class="whatsapp-btn">
+          <span>💬</span> Chat on WhatsApp Now
+        </a>
+      </div>
+
+      <div class="reveal-right">
+        <div class="contact-form">
+          <div id="formContent">
+            <div class="form-title">Book Free Strategy Call</div>
+            <p class="form-subtitle">Fill out the form and we'll get back to you within 2 hours.</p>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fname">First Name *</label>
+                <input type="text" id="fname" placeholder="Rahul" required/>
+              </div>
+              <div class="form-group">
+                <label for="lname">Last Name</label>
+                <input type="text" id="lname" placeholder="Sharma"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" placeholder="yourname@gmail.com" required/>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number *</label>
+              <input type="tel" id="phone" placeholder="+91 98765 43210" required/>
+            </div>
+            <div class="form-group">
+              <label for="service">Service Interested In *</label>
+              <select id="service">
+                <option value="">Select a service…</option>
+                <option>Social Media Marketing</option>
+                <option>Paid Ads (Google & Meta)</option>
+                <option>SEO Optimization</option>
+                <option>Branding</option>
+                <option>Website Development</option>
+                <option>Full Digital Package</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="budget">Monthly Budget</label>
+              <select id="budget">
+                <option value="">Select budget range…</option>
+                <option>Under ₹25,000</option>
+                <option>₹25,000 – ₹75,000</option>
+                <option>₹75,000 – ₹2 Lakh</option>
+                <option>₹2 Lakh – ₹5 Lakh</option>
+                <option>₹5 Lakh+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Tell Us About Your Goals</label>
+              <textarea id="message" placeholder="I want to increase leads / grow revenue / improve online presence…"></textarea>
+            </div>
+            <button type="button" class="form-submit" id="submitBtn">
+              <span>🚀</span> Submit & Get Free Consultation
+            </button>
+            <p class="form-note">🔒 Your information is 100% secure. We don't spam.</p>
+          </div>
+          <div class="form-success" id="formSuccess">
+            <div class="success-icon">✅</div>
+            <h3>You're All Set!</h3>
+            <p>Thanks for reaching out! Our team will contact you within 2 hours to schedule your free strategy call.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     FOOTER
+     ============================================= -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <img src="data:image/png;base64,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" alt="MediaMitra Logo" style="width:42px;height:42px;object-fit:contain;background:#ffffff;border-radius:50%;padding:5px;box-shadow:0 2px 8px rgba(0,0,0,0.15);" />
+          MediaMitra
+        </div>
+        <p>India's performance-first digital marketing agency. We help brands grow faster with data-driven strategies that deliver measurable ROI.</p>
+        <div class="footer-socials">
+          <div class="fsocial">in</div>
+          <div class="fsocial">𝕏</div>
+          <div class="fsocial">f</div>
+          <div class="fsocial">▶</div>
+          <div class="fsocial">📸</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Social Media Marketing</a></li>
+          <li><a href="#services">Paid Ads (Google & Meta)</a></li>
+          <li><a href="#services">SEO Optimization</a></li>
+          <li><a href="#services">Branding</a></li>
+          <li><a href="#services">Website Development</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#why">About Us</a></li>
+          <li><a href="#portfolio">Case Studies</a></li>
+          <li><a href="#testimonials">Client Reviews</a></li>
+          <li><a href="#contact">Careers</a></li>
+          <li><a href="#contact">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="/cdn-cgi/l/email-protection#3f575a5353507f525a5b565e52564b4d5e115651"><span class="__cf_email__" data-cfemail="b9d1dcd5d5d6f9d4dcddd0d8d4d0cdcbd897d0d7">[email&#160;protected]</span></a></li>
+          <li><a href="tel:+916363234833">+91 63632 34833</a></li>
+          <li><a href="#contact">Bandra West, Mumbai</a></li>
+          <li><a href="https://wa.me/916363234833">WhatsApp Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 <span>MediaMitra</span>. All rights reserved. Built with ❤️ in India.</p>
+      <p>Privacy Policy · Terms of Service · Sitemap</p>
+    </div>
+  </div>
+</footer>
+
+<!-- =============================================
+     JAVASCRIPT
+     ============================================= -->
+<script>
 // ─── Navbar scroll behavior ───────────────────
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
