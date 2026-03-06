@@ -1,4 +1,4 @@
-# ─── Secrets — NEVER commit these ────────────────────────────────────────────
+git push# ─── Secrets — NEVER commit these ────────────────────────────────────────────
 .env
 .env.local
 .env.production

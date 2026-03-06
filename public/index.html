@@ -1669,6 +1669,12 @@ body.js-loaded .reveal-right.visible {
   .btn { width: 100%; justify-content: center; }
 }
 </style>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // Replace _bADvM4_OvoHwt91a with your EmailJS public key
+  emailjs.init({ publicKey: '_bADvM4_OvoHwt91a' });
+</script>
 </head>
 <body>
 
@@ -2308,7 +2314,7 @@ body.js-loaded .reveal-right.visible {
 <!-- =============================================
      JAVASCRIPT
      ============================================= -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ─── Navbar scroll behavior ───────────────────
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
@@ -2412,9 +2418,9 @@ function animateCounter(el, target, suffix = '', duration = 1500) {
   requestAnimationFrame(update);
 }
 
-// ─── Form submit — POSTs securely to /api/contact ─────────────────────────
+// ─── Form submit — EmailJS ───────────────────────────────────────────────────
 document.getElementById('submitBtn').addEventListener('click', async function () {
-  const btn   = this;
+  const btn     = this;
   const fname   = document.getElementById('fname').value.trim();
   const lname   = document.getElementById('lname').value.trim();
   const email   = document.getElementById('email').value.trim();
@@ -2423,7 +2429,7 @@ document.getElementById('submitBtn').addEventListener('click', async function ()
   const budget  = document.getElementById('budget').value;
   const message = document.getElementById('message').value.trim();
 
-  // ── Client-side validation ──────────────────
+  // Validate
   const requiredFields = [
     { val: fname, id: 'fname' },
     { val: email, id: 'email' },
@@ -2439,50 +2445,41 @@ document.getElementById('submitBtn').addEventListener('click', async function ()
       hasError = true;
     }
   });
-
-  // Basic email format check
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    const el = document.getElementById('email');
-    el.style.borderColor = '#EF4444';
+    document.getElementById('email').style.borderColor = '#EF4444';
     hasError = true;
   }
-
   if (hasError) return;
 
-  // ── Loading state ────────────────────────────
+  // Loading state
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Sending…';
 
+  // EmailJS send
   try {
-    // ── Secure POST — no secrets in frontend code ─
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstName: fname,
-        lastName:  lname,
-        email,
-        phone,
-        service,
-        budget,
-        message,
-        submittedAt: new Date().toISOString(),
-      }),
-    });
+    await emailjs.send(
+      'service_fg9ow0h',     // ← Replace with your EmailJS Service ID
+      'template_fba0v7p',    // ← Replace with your EmailJS Template ID
+      {
+        from_name:  fname + ' ' + lname,
+        from_email: email,
+        phone:      phone,
+        service:    service || 'Not specified',
+        budget:     budget  || 'Not specified',
+        message:    message || '—',
+        to_email:   'mediamitra05@gmail.com',
+        reply_to:   email,
+      }
+    );
 
-    const data = await res.json();
+    // Success
+    document.getElementById('formContent').style.display = 'none';
+    const successEl = document.getElementById('formSuccess');
+    successEl.style.display = 'block';
+    successEl.style.animation = 'fadeInUp 0.5s ease';
 
-    if (res.ok && data.success) {
-      // ── Success state ────────────────────────
-      document.getElementById('formContent').style.display = 'none';
-      const successEl = document.getElementById('formSuccess');
-      successEl.style.display = 'block';
-      successEl.style.animation = 'fadeInUp 0.5s ease';
-    } else {
-      throw new Error(data.message || 'Server error');
-    }
   } catch (err) {
-    // ── Error state — show inline message ────────
+    console.error('EmailJS error:', err);
     let errEl = document.getElementById('formError');
     if (!errEl) {
       errEl = document.createElement('p');
@@ -2490,7 +2487,7 @@ document.getElementById('submitBtn').addEventListener('click', async function ()
       errEl.style.cssText = 'color:#EF4444;font-size:0.85rem;margin-top:12px;text-align:center;';
       btn.insertAdjacentElement('afterend', errEl);
     }
-    errEl.textContent = '⚠️ Something went wrong. Please try WhatsApp or email us directly.';
+    errEl.textContent = '⚠️ Something went wrong. Please WhatsApp us directly.';
     btn.disabled = false;
     btn.innerHTML = '<span>🚀</span> Submit & Get Free Consultation';
   }
